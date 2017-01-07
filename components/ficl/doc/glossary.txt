@@ -1,0 +1,264 @@
+\ TOOLBELT W.Baden
+NOT ( x -- flag )   TOOLBELT
+   Logical not.
+
+[DEFINED] ( "name" -- flag )   TOOLBELT
+   Answer true if `name' defined.
+
+[UNDEFINED] ( "name" -- flag )   TOOLBELT
+   Answer true if `name' undefined.
+
+C+! ( n caddr -- )   TOOLBELT
+   Add n to contents of caddr.
+
+POSSIBLY ( "name" -- )   TOOLBELT
+   Execute `name' if defined.
+
+ANEW ( "name" -- )   TOOLBELT
+   Execute `name' if defined, put a MARKER with `name'.
+
+EMPTY ( "name" -- )   TOOLBELT
+   Reset FORTH to DECIMAL, FORTH dictionary.
+
+\ SWITCH R.v.Norman
+\ Define a SWITCH, which selects at run-time a given xt.
+\ If n is not found in the switch, the default-word is invoked
+\ with n.
+\
+[SWITCH <name> <default-word>
+  n RUNS <word>
+  n RUN: <definiton> ;
+SWITCH]
+
+default-xt :SWITCH <name>
+...
+SWITCH]
+
+\ Extend previously defined SWITCH.
+\
+[+SWITCH <name>
+...
+SWITCH]
+
+RESET-PAD ( -- )   CIRC-PAD
+   Reset circular PAD.
+
+PAD ( -- ca )   CIRC-PAD
+   Returns current PAD, length is 80 chars.
+
++PAD ( -- ca )   CIRC-PAD
+   Select next PAD.
+
++PAD, ( ca n -- ca' n )   CIRC-PAD
+   Move sc to next PAD.
+  
+XXX ( -- )   UTILS
+   ABORT with " not implemented" message.
+
+BINARY ( -- )   UTILS
+   Select base 2 numeric input.
+
+OCTAL ( -- )   UTILS
+   Select base 8 numeric input.
+
+ALPHA ( -- )   UTILS
+   Select base 36 numeric input.
+
+.D ( u -- )   UTILS
+   Print u as decimal number.
+
+.X ( u -- )   UTILS
+   Print u as hex number.
+
+.B ( u -- )   UTILS
+   Print u as binary number.
+
+.BASE ( -- )   UTILS
+   Print current base in decimal.
+
+BLANK ( ca u -- )   UTILS
+   Fill ca u with blanks.
+
+TEXT ( delim -- )   UTILS
+   Clear PAD, parse text until `delim' found, move text to PAD.
+
+$, ( ca u -- )   UTILS
+   Store ca/n in dictionary.
+
+," ( "string" -- )   UTILS
+   Parse string from input stream, store in dictionary.
+
+/STRING ( ca1 u1 +n -- ca2 u2 ) dictionary.
+
+," ( "string" -- )   UTILS
+   Parse string from input stream, store in dictionary.
+
+/STRING ( ca1 u1 +n -- ca2 u2 )   UTILS
+   Remove +n chars from ca1/u1.
+
+-TRAILING ( ca1 u1 -- ca2 u2 )   UTILS
+   Remove trailing spaces from ca1/u1.
+
+!+ ( n a1 -- a2 )   UTILS
+   Store n at a1, increment a1.
+
+3DUP ( a b c -- a b c a b c )   UTILS
+   Duplicate top 3 stack items.
+
+BETWEEN ( n lo hi -- f )   UTILS
+   Answer true if lo <= n <= hi.
+
+BOUNDS ( lo # -- hi lo )   UTILS
+   Answer the bounds of the range lo/#.
+
+$DUMP ( ca n -- ca n )   UTILS
+   Print the string, do nothing.
+
+(u.) ( n -- ca # )   UTILS
+   Convert n to string on a new PAD.
+
+TYPE.R ( ca # m -- )   UTILS
+   Print ca/# right justified in a field of m.
+
+U.R ( u m -- )   UTILS
+   Print u right justified in a field of m.
+
+DABS ( d -- +d )   UTILS
+   Double absolute value.
+
+UD. ( ud -- )   UTILS
+   Print unsigned double number.
+
+D. ( d -- )   UTILS
+   Print signed double number.
+
+UMAX ( u1 u2 -- u )   UTILS
+   Returns the unsigned max of u1,u2.
+
+UM+ ( u1 u2 -- d )   UTILS
+   Return the sum of u1,u2 as a double number.
+
+D+ ( d1 d2 -- d )   UTILS
+   Returns the sum of double numbers d1,d2.
+
+D- ( d1 d2 -- d )   UTILS
+   Returns the difference of double numbers d1,d2.
+
+D0= ( d -- f )   UTILS
+   Returns true if d is zero.
+
+D0< ( d -- f )   UTILS
+   Returns true if d is less than zero.
+
+\ ANSI terminal
+BLACK RED GREEN YELLOW BLUE MAGENTA CYAN WHITE ( -- n )   UTILS
+   ANSI color constants.
+
+SET-FG ( color -- )   UTILS
+   Set foreground color.
+
+SET-BG ( color -- )   UTILS
+   Set background color.
+
+RESET-ATTRS ( -- )   UTILS
+   Reset terminal attributes.
+
+AT-XY ( x y -- )   UTILS
+   Position cursor at x,y.
+
+HOME ( -- )   UTILS
+   Position cursor at top-left corner.
+
+PAGE ( -- )   UTILS
+   Clear screen, position cursor at top-left corner.
+
+TH ( a1 n -- a2 )   UTILS
+   Returns the address of the nth element of array a1.
+
+cTH ( ca1 n -- ca2 )   UTILS
+   Returns the address of the nth element of the character array ca1.
+
+ARRAY ( n "name" -- )   UTILS
+   Allocate an n element cell array with `name'. At run time answer
+   the address of the nth element.
+
+CARRAY ( n "name" -- )   UTILS
+   Allocate an n element char array with `name'. At run time answer
+   the address of the nth element.
+
+DUMP ( addr u -- )   UTILS
+   Dump the contents of the memory addr/u.
+
+\ Counted strings
+$VARIABLE ( n "name" -- )   UTILS
+   Allot a counted string variable of length n.
+
+/$ ( sa -- )   UTILS
+   Clear string var sa.
+
+$! ( ca # sa -- )   UTILS
+   Store ca/# to string var sa.
+
+$@ ( sa -- ca # )   UTILS
+   Returns the ca/# of string var sa.
+
+$+! ( ca # sa -- )   UTILS
+   Append ca/# to string var sa.
+
+$. ( sa -- )   UTILS
+   Print string var sa.
+
+$PAD! ( ca # -- )   UTILS
+   Store ca/# as counted string at PAD.
+
+$PAD+! ( ca # -- )   UTILS
+   Append ca/# to counted string at PAD.
+
+$PAD ( -- ca # )   UTILS
+   Return the ca/# of counted string at PAD.
+
+\ Development support.
+SOURCE! ( ca # -- )   UTILS
+   Set current source file to ca/#.
+
+IN ( -- )   UTILS
+   Include current source file.
+
+EDITED ( ca # -- )   UTILS
+   Edit file ca/# with VIM.
+
+ED ( -- )   UTILS
+   Edit current source file.
+
+EDIT ( "path" -- )   UTILS
+   Edit filename.
+
+LS ( -- )   UTILS
+   List directory contents.
+
+RM ( "path" -- )   UTILS
+   Delete file `path'.
+
+\ Forthmacs string array: at runtime return the ca/# of the nth string.
+STRING-ARRAY <name>
+   $" str"
+END-STRING-ARRAY
+
+\ FiCL cannot compile a double number due to a bug.
+NUMBER? ( ca u -- ud f )   NUMBER CONVERSION
+   Convert ca/u in current base, leave true if number.
+   Separators are "./:,".
+
+BASE# ( n "number" -- n )   NUMBER CONVERSION
+   Convert next word to number in given base `n'.
+   Immediate.
+
+\ Open Firmware number entry w/o changing current base.
+\ Other workaround: ... [ HEX ] 8000 [ DECIMAL ] ...
+D# ( "number" -- n )   NUMBER CONVERSION
+   Convert next word in the input stream as a decimal number.
+   Immediate.
+
+H# ( "number" -- n )   NUMBER CONVERSION
+   Convert next word in the input stream as a hexadecimal number.
+   Immediate.
